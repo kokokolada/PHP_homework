@@ -6,7 +6,7 @@ include "db_config.php";
 
 //DELETE
 if($_POST["delete"]) {
-    $delete_query = "DELETE FROM `products` WHERE `id` IN (" . implode (", ", $_POST["id"]) . ")";
+    $delete_query = "DELETE FROM `products` WHERE `product_id` IN (" . implode (", ", $_POST["product_id"]) . ")";
     echo $delete_query;
     $delete = mysqli_query($link, $delete_query);
 
@@ -17,7 +17,7 @@ if($_POST["delete"]) {
     
 //EDIT
 if($_POST["edit"]) {
-    $query = "SELECT * FROM `products` WHERE `id` IN (" . implode (", ", $_POST["id"]) . ")";
+    $query = "SELECT * FROM `products` WHERE `product_id` IN (" . implode (", ", $_POST["product_id"]) . ")";
     $edit_result = mysqli_query($link, $query);
     $product_result = mysqli_fetch_assoc($edit_result);
 var_dump($product_result);
@@ -46,7 +46,7 @@ var_dump($product_result);
             </tr>
         <tr>
             <td>
-                <input type="hidden" placeholder="id" name="update[id]" value="'.$product_result["id"].'"> 
+                <input type="hidden" placeholder="product_id" name="update[product_id]" value="'.$product_result["product_id"].'"> 
                 <input type="text" placeholder="name"  name="update[name]" value="'.$product_result["name"].'">
                 <input type="text" placeholder="description"  name="update[description]" value="'.$product_result["description"].'">
                 <input type="number" placeholder="price"  name="update[price]" value="'.$product_result["price"].'">
@@ -69,7 +69,7 @@ if($_POST["update"]) {
 
     $form_data = $_POST["update"];
     //     foreach ($form_data as $product_data) {
-    $update_sql = "UPDATE `products` SET `name`='".$form_data["name"]."',`description`='".$form_data["description"]."',`price`=".$form_data["price"]." ,`owner_id`=".$form_data["owner"]." WHERE id=".$form_data["id"];
+    $update_sql = "UPDATE `products` SET `name`='".$form_data["name"]."',`description`='".$form_data["description"]."',`price`=".$form_data["price"]." ,`owner_id`=".$form_data["owner"]." WHERE product_id=".$form_data["product_id"];
 
     $insert_query = mysqli_query($link, $update_sql); // <== saada info andmebaasi
 
@@ -79,7 +79,7 @@ if($_POST["update"]) {
 //    }
 }
 
-$sort_column = isset($_GET["sort"]) ? $_GET["sort"] : "id";
+$sort_column = isset($_GET["sort"]) ? $_GET["sort"] : "product_id";
 $sort_asc = isset($_GET["asc"]) ? $_GET["asc"] : true;
 $sort_direction = $sort_asc ? "ASC" : "DESC";
 
@@ -100,7 +100,7 @@ $query_results = mysqli_query($link, $first_select);
             <span>#</span>
          </td>
          <td>
-         <a href="./product_form_edit.php?sort=id&asc=<?php echo !$sort_asc ?>" >ID</a>
+         <a href="./product_form_edit.php?sort=product_id&asc=<?php echo !$sort_asc ?>" >ID</a>
          </td>
          <td>
          <a href="./product_form_edit.php?sort=name&asc=<?php echo !$sort_asc ?>" >Name</a>
@@ -122,10 +122,10 @@ $query_results = mysqli_query($link, $first_select);
              $select_user  = mysqli_fetch_assoc($specific_user_result);
             echo '<tr>
                      <td>
-                        <input type="radio" name="id[]" value="'.$result["id"].'">
+                        <input type="radio" name="product_id[]" value="'.$result["product_id"].'">
                      </td>
                      <td>
-                     <span>'.$result["id"].'</span>
+                     <span>'.$result["product_id"].'</span>
                   </td>
                      <td>
                         <span>'.$result["name"].'</span>
